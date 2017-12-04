@@ -26,9 +26,12 @@ private slots:
 
     void on_comboBox_currentIndexChanged(const QString &arg1);
 
+    void on_pushButton_recover_clicked();
+
 private:
     Ui::MainWindow *ui;
      int loops;
+     QString bkup_str;
 };
 
 #endif // MAINWINDOW_H

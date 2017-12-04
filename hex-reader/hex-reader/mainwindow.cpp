@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include <cstring>
 #include <cstdio>
+#include<QDebug>
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -17,9 +18,9 @@ MainWindow::MainWindow(QWidget *parent) :
         ui->comboBox->insertItem(i, QString::fromLatin1(buf));
          memset(buf,0,10);
     }
-    ui->comboBox->setCurrentIndex(3);
-    loops=3;
-    //   ui->groupBox->setFixedWidth(300);
+    ui->comboBox->setCurrentIndex(1);
+    loops=1;
+      ui->groupBox->setFixedWidth(300);
 }
 
 MainWindow::~MainWindow()
@@ -95,7 +96,9 @@ void MainWindow::on_pushButton_regroup_clicked()
 void MainWindow::on_pushButton_generate_clicked()
 {
     QString str_format=ui->textEdit_format->toPlainText();
+
     QString str_text=ui->textEdit_hex->toPlainText();
+    bkup_str=str_text;
     QRegExp ex("\ +");
     QRegExp ex1("\n");
     str_text.replace(ex," ");
@@ -151,19 +154,27 @@ void MainWindow::on_pushButton_generate_clicked()
 
         }
     }
+    qDebug()<<"offset"<<offset;
+    if(ui->checkBox_tru->isChecked())
+        str_text.truncate(offset);
     ui->textEdit_hex->setText(str_text);
 
     //ui->textEdit_hex->setFixedWidth(30);
 }
-#include<QDebug>
+
 void MainWindow::on_comboBox_activated(int index)
 {
     loops=index;
-qDebug()<<index;
+    qDebug()<<"index"<<index;
 }
 
 void MainWindow::on_comboBox_currentIndexChanged(const QString &arg1)
 {
   // qDebug()<<arg1;
 
+}
+
+void MainWindow::on_pushButton_recover_clicked()
+{
+    ui->textEdit_hex->setText(bkup_str);
 }
